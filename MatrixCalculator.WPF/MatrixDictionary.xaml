@@ -1,0 +1,56 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MatrixCalculator.WPF">
+    <ControlTemplate x:Key="MatrixViewTemplate" TargetType="{x:Type local:MatrixView}">
+        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Border Padding="{TemplateBinding Padding}">
+                <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center" Columns="{TemplateBinding WidthInCells}" Rows="{TemplateBinding HeightInCells}" IsItemsHost="True"/>
+            </Border>
+        </ScrollViewer>
+    </ControlTemplate>
+
+    <Style x:Key="NormalTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="SnapsToDevicePixels"
+          Value="True" />
+        <Setter Property="OverridesDefaultStyle"
+          Value="True" />
+        <Setter Property="KeyboardNavigation.TabNavigation"
+          Value="None" />
+        <Setter Property="FocusVisualStyle"
+          Value="{x:Null}" />
+        <Setter Property="MinWidth"
+          Value="10" />
+        <Setter Property="MinHeight"
+          Value="10" />
+        <Setter Property="AllowDrop"
+          Value="true" />
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="SelectionBrush" Value="#FF555555"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border Padding="0 10px 0 10px" Name="Border" CornerRadius="15" BorderThickness="1" BorderBrush="#930d4b" Background="#444">
+                        <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DefaultMatrixView" TargetType="{x:Type local:MatrixView}">
+        <Setter Property="Template" Value="{StaticResource MatrixViewTemplate}"/>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBox Style="{StaticResource NormalTextBox}" Margin="10px" Width="65px" Height="65px" Text="{Binding Value}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:MatrixView}" BasedOn="{StaticResource DefaultMatrixView}"/>
+</ResourceDictionary>
