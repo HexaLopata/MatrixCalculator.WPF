@@ -8,6 +8,215 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="MatrixDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Border">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="#930d4b"/>
+                <Setter Property="Background" Value="#222"/>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#444"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Padding" Value="10px"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border BorderThickness="1" Padding="{TemplateBinding Padding}" BorderBrush="#930d4b" Background="{TemplateBinding Background}">
+                                <ContentControl Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Style.Resources>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#222"/>
+                    </Trigger>
+                    <EventTrigger RoutedEvent="Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Duration="0:0:0.13" Storyboard.TargetProperty="Background.Color" To="Black"/>
+                                <ColorAnimation Duration="0:0:0.13" Storyboard.TargetProperty="Background.Color" To="#222"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+
+            </Style>
+            <Style TargetType="ToggleButton">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#444"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Padding" Value="10px"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border BorderThickness="1" Padding="{TemplateBinding Padding}" BorderBrush="#930d4b" Background="{TemplateBinding Background}">
+                                <ContentControl FontSize="{TemplateBinding FontSize}" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Style.Resources>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#222"/>
+                    </Trigger>
+                    <EventTrigger RoutedEvent="Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Duration="0:0:0.13" Storyboard.TargetProperty="Background.Color" To="Black"/>
+                                <ColorAnimation Duration="0:0:0.13" Storyboard.TargetProperty="Background.Color" To="#222"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+
+
+            <Style x:Key="{x:Type ComboBoxItem}"
+       TargetType="{x:Type ComboBoxItem}">
+                <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+                <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                            <Border CornerRadius="20" BorderThickness="0" Padding="5px">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="SelectionStates">
+                                        <VisualState x:Name="Unselected" />
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#444"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="SelectedUnfocused"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="UIElement.SnapsToDevicePixels" Value="True"/>
+                <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="True"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+                <Setter Property="TextElement.Foreground" Value="Black"/>
+                <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="ItemTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock Focusable="False" Text="{Binding}"/>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBox">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver" />
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="EditStates">
+                                        <VisualState x:Name="Editable">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                 Storyboard.TargetName="PART_EditableTextBox">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                            Value="{x:Static Visibility.Visible}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames
+                      Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                 Storyboard.TargetName="ContentSite">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                            Value="{x:Static Visibility.Hidden}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Uneditable" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ToggleButton
+                                              ClickMode="Press"
+                                              Focusable="False"
+                                              IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                                <ContentPresenter Name="ContentSite"
+                                                  Margin="5, 3, 23, 3"
+                                                  IsHitTestVisible="False"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding ComboBox.SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                                <TextBox Name="PART_EditableTextBox"
+                                         Margin="3, 3, 23, 3"                     
+                                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                                         Visibility="Hidden"
+                                         Background="Transparent"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Focusable="True" >
+                                    <TextBox.Template>
+                                        <ControlTemplate TargetType="TextBox" >
+                                            <Border Name="PART_ContentHost" Focusable="False" />
+                                        </ControlTemplate>
+                                    </TextBox.Template>
+                                </TextBox>
+                                 <!--Popup showing items--> 
+                                <Popup Name="PART_Popup"
+                                       Placement="Top"
+                                       Focusable="False"
+                                       AllowsTransparency="True"
+                                       IsOpen="{TemplateBinding ComboBox.IsDropDownOpen}"
+                                       PopupAnimation="Slide">
+                                    <Grid Name="DropDown" SnapsToDevicePixels="True"
+                                          MinWidth="{TemplateBinding FrameworkElement.ActualWidth}"
+                                          MaxHeight="{TemplateBinding ComboBox.MaxDropDownHeight}">
+                                        <Border Name="Border"
+                                                Margin="0, 1, 0, 0"
+                                                CornerRadius="20"
+                                                BorderThickness="1,1,1,1" />
+                                        <ScrollViewer Margin="4"
+                                                      SnapsToDevicePixels="True">
+                                            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

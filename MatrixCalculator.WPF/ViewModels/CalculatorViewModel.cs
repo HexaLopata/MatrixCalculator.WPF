@@ -26,8 +26,19 @@ namespace MatrixCalculator.WPF.ViewModels
                     {
                         var matrix1 = new IntMatrix(_matrix1.Width, _matrix1.Height, _matrix1.Select(e => e.Value));
                         var matrix2 = new IntMatrix(_matrix2.Width, _matrix2.Height, _matrix2.Select(e => e.Value));
-
-                        var resultMatrix = matrix1 * matrix2;
+                        IntMatrix resultMatrix = null;
+                        switch (SelectedOperation.Value)
+                        {
+                            case 0:
+                                resultMatrix = matrix1 * matrix2;
+                                break;
+                            case 1:
+                                resultMatrix = matrix1 + matrix2;
+                                break;
+                            case 2:
+                                resultMatrix = matrix1 - matrix2;
+                                break;
+                        }
                         ResultMatrix = new Matrix<BindingContainer<int>>(
                             resultMatrix.Width,
                             resultMatrix.Height,
@@ -89,6 +100,12 @@ namespace MatrixCalculator.WPF.ViewModels
             set { SetProperty(ref _resultMatrix, value); }
         }
 
+        public List<string> Operations
+        {
+            get => new List<string>() { "Умножение", "Сложнение", "Вычитание" };
+        }
+
+        public BindingContainer<int> SelectedOperation { get; set; } = new BindingContainer<int>();
         public BindingContainer<int> WidthOfFirst { get; set; } = new BindingContainer<int>(3);
         public BindingContainer<int> WidthOfSecond { get; set; } = new BindingContainer<int>(3);
         public BindingContainer<int> HeightOfFirst { get; set; } = new BindingContainer<int>(3);
