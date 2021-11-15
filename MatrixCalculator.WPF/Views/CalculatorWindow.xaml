@@ -9,6 +9,9 @@
         xmlns:context="clr-namespace:MatrixCalculator.WPF.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="900" MinHeight="550" MinWidth="1060">
+    <Window.Resources>
+        <Style TargetType="Border" BasedOn="{StaticResource DarkRedBorder}"/>
+    </Window.Resources>
     <Grid>
         <Grid.DataContext>
             <context:CalculatorViewModel/>
@@ -48,7 +51,7 @@
                 <Border BorderThickness="0" Padding="10px">
                     <StackPanel>
                         <TextBlock Text="" />
-                        <Button Command="{Binding SetMatrix1SizeCommand}" Margin="0 10px" Height="70px" Content="Задать"/>
+                        <Button Command="{Binding SetMatrix1SizeCommand}" Margin="0 10px" Height="70px" Width="80" Content="Задать"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -70,7 +73,7 @@
                 <Border BorderThickness="0" Padding="10px">
                     <StackPanel>
                         <TextBlock Text="" />
-                        <Button Command="{Binding SetMatrix2SizeCommand}" Margin="0 10px" Height="70px" Content="Задать"/>
+                        <Button Command="{Binding SetMatrix2SizeCommand}" Margin="0 10px" Width="80px" Height="70px" Content="Задать"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
