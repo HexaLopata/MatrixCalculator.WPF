@@ -18,6 +18,6 @@ namespace MatrixCalculator.WPF.ViewModels
         }
 
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof(T), typeof(BindingContainer<T>), new PropertyMetadata(0));
+            DependencyProperty.Register("Value", typeof(T), typeof(BindingContainer<T>), new PropertyMetadata(default(T)));
     }
 }

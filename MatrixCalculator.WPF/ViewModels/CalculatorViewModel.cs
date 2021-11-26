@@ -9,9 +9,9 @@ namespace MatrixCalculator.WPF.ViewModels
 {
     internal class CalculatorViewModel : ViewModelBase
     {
-        private Matrix<BindingContainer<int>> _matrix1;
-        private Matrix<BindingContainer<int>> _matrix2;
-        private Matrix<BindingContainer<int>> _resultMatrix;
+        private Matrix<BindingContainer<double>> _matrix1;
+        private Matrix<BindingContainer<double>> _matrix2;
+        private Matrix<BindingContainer<double>> _resultMatrix;
         private RelayCommand _calculateCommand;
         private RelayCommand _setMatrix1SizeCommand;
         private RelayCommand _setMatrix2SizeCommand;
@@ -24,9 +24,9 @@ namespace MatrixCalculator.WPF.ViewModels
                 {
                     try
                     {
-                        var matrix1 = new IntMatrix(_matrix1.Width, _matrix1.Height, _matrix1.Select(e => e.Value));
-                        var matrix2 = new IntMatrix(_matrix2.Width, _matrix2.Height, _matrix2.Select(e => e.Value));
-                        IntMatrix resultMatrix = null;
+                        var matrix1 = new RealMatrix(_matrix1.Width, _matrix1.Height, _matrix1.Select(e => e.Value));
+                        var matrix2 = new RealMatrix(_matrix2.Width, _matrix2.Height, _matrix2.Select(e => e.Value));
+                        RealMatrix resultMatrix = null;
                         switch (SelectedOperation.Value)
                         {
                             case 0:
@@ -38,11 +38,25 @@ namespace MatrixCalculator.WPF.ViewModels
                             case 2:
                                 resultMatrix = matrix1 - matrix2;
                                 break;
+                            case 3:
+                                resultMatrix = new RealMatrix(1, 1);
+                                resultMatrix[0, 0] = matrix1.Determinant;
+                                break;
+                            case 4:
+                                resultMatrix = new RealMatrix(1, 1);
+                                resultMatrix[0, 0] = matrix2.Determinant;
+                                break;
+                            case 5:
+                                resultMatrix = matrix1.Inversed;
+                                break;
+                            case 6:
+                                resultMatrix = matrix2.Inversed;
+                                break;
                         }
-                        ResultMatrix = new Matrix<BindingContainer<int>>(
+                        ResultMatrix = new Matrix<BindingContainer<double>>(
                             resultMatrix.Width,
                             resultMatrix.Height,
-                            resultMatrix.Select(e => new BindingContainer<int>() { Value = e }));
+                            resultMatrix.Select(e => new BindingContainer<double>() { Value = e }));
                         OnPropertyChanged(nameof(ResultMatrix.Width));
                         OnPropertyChanged(nameof(ResultMatrix.Height));
                     }
@@ -82,19 +96,19 @@ namespace MatrixCalculator.WPF.ViewModels
             }
         }
 
-        public Matrix<BindingContainer<int>> Matrix1
+        public Matrix<BindingContainer<double>> Matrix1
         {
             get { return _matrix1; }
             set { SetProperty(ref _matrix1, value); }
         }
 
-        public Matrix<BindingContainer<int>> Matrix2
+        public Matrix<BindingContainer<double>> Matrix2
         {
             get { return _matrix2; }
             set { SetProperty(ref _matrix2, value); }
         }
 
-        public Matrix<BindingContainer<int>> ResultMatrix
+        public Matrix<BindingContainer<double>> ResultMatrix
         {
             get { return _resultMatrix; }
             set { SetProperty(ref _resultMatrix, value); }
@@ -102,7 +116,7 @@ namespace MatrixCalculator.WPF.ViewModels
 
         public List<string> Operations
         {
-            get => new List<string>() { "Умножение", "Сложнение", "Вычитание" };
+            get => new List<string>() { "Умножение", "Сложнение", "Вычитание", {"Определитель A"}, {"Определитель B"}, {"Обратная A"}, {"Обратная B"} };
         }
 
         public BindingContainer<int> SelectedOperation { get; set; } = new BindingContainer<int>();
@@ -113,14 +127,14 @@ namespace MatrixCalculator.WPF.ViewModels
 
         public CalculatorViewModel()
         {
-            _matrix1 = new Matrix<BindingContainer<int>>(3, 3, new BindingContainer<int>[9].Select(e => new BindingContainer<int>()));
-            _matrix2 = new Matrix<BindingContainer<int>>(3, 3, new BindingContainer<int>[9].Select(e => new BindingContainer<int>()));
-            _resultMatrix = new Matrix<BindingContainer<int>>(0, 0);
+            _matrix1 = new Matrix<BindingContainer<double>>(3, 3, new BindingContainer<double>[9].Select(e => new BindingContainer<double>()));
+            _matrix2 = new Matrix<BindingContainer<double>>(3, 3, new BindingContainer<double>[9].Select(e => new BindingContainer<double>()));
+            _resultMatrix = new Matrix<BindingContainer<double>>(0, 0);
         }
 
-        private void SetMatrixSize(ref Matrix<BindingContainer<int>> matrix, int width, int height)
+        private void SetMatrixSize(ref Matrix<BindingContainer<double>> matrix, int width, int height)
         {
-            matrix = new Matrix<BindingContainer<int>>(width, height, new BindingContainer<int>[width * height].Select(e => new BindingContainer<int>()));
+            matrix = new Matrix<BindingContainer<double>>(width, height, new BindingContainer<double>[width * height].Select(e => new BindingContainer<double>()));
         }
     }
 }
