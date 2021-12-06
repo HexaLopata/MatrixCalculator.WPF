@@ -15,6 +15,7 @@ namespace MatrixCalculator.WPF.ViewModels
         private RelayCommand _calculateCommand;
         private RelayCommand _setMatrix1SizeCommand;
         private RelayCommand _setMatrix2SizeCommand;
+        private Dictionary<int, Func<RealMatrix, RealMatrix, RealMatrix>> _operations = new Dictionary<int, Func<RealMatrix, RealMatrix, RealMatrix>>();
 
         public RelayCommand CalculateCommand
         {
@@ -26,33 +27,8 @@ namespace MatrixCalculator.WPF.ViewModels
                     {
                         var matrix1 = new RealMatrix(_matrix1.Width, _matrix1.Height, _matrix1.Select(e => e.Value));
                         var matrix2 = new RealMatrix(_matrix2.Width, _matrix2.Height, _matrix2.Select(e => e.Value));
-                        RealMatrix resultMatrix = null;
-                        switch (SelectedOperation.Value)
-                        {
-                            case 0:
-                                resultMatrix = matrix1 * matrix2;
-                                break;
-                            case 1:
-                                resultMatrix = matrix1 + matrix2;
-                                break;
-                            case 2:
-                                resultMatrix = matrix1 - matrix2;
-                                break;
-                            case 3:
-                                resultMatrix = new RealMatrix(1, 1);
-                                resultMatrix[0, 0] = matrix1.Determinant;
-                                break;
-                            case 4:
-                                resultMatrix = new RealMatrix(1, 1);
-                                resultMatrix[0, 0] = matrix2.Determinant;
-                                break;
-                            case 5:
-                                resultMatrix = matrix1.Inversed;
-                                break;
-                            case 6:
-                                resultMatrix = matrix2.Inversed;
-                                break;
-                        }
+                        RealMatrix resultMatrix = _operations[SelectedOperation.Value](matrix1, matrix2);
+                        
                         ResultMatrix = new Matrix<BindingContainer<double>>(
                             resultMatrix.Width,
                             resultMatrix.Height,
@@ -127,14 +103,34 @@ namespace MatrixCalculator.WPF.ViewModels
 
         public CalculatorViewModel()
         {
-            _matrix1 = new Matrix<BindingContainer<double>>(3, 3, new BindingContainer<double>[9].Select(e => new BindingContainer<double>()));
-            _matrix2 = new Matrix<BindingContainer<double>>(3, 3, new BindingContainer<double>[9].Select(e => new BindingContainer<double>()));
+            _matrix1 = new Matrix<BindingContainer<double>>(3, 3, new BindingContainer<double>[9]
+                                                                  .Select(e => new BindingContainer<double>()));
+            _matrix2 = new Matrix<BindingContainer<double>>(3, 3, new BindingContainer<double>[9]
+                                                                  .Select(e => new BindingContainer<double>()));
             _resultMatrix = new Matrix<BindingContainer<double>>(0, 0);
+
+            InitializeOperations();
+        }
+
+        private void InitializeOperations()
+        {
+            _operations.Add(0, (m1, m2) => m1 * m2);
+            _operations.Add(1, (m1, m2) => m1 + m2);
+            _operations.Add(2, (m1, m2) => m1 - m2);
+            _operations.Add(3, (m1, m2) => {
+                var resultMatrix = new RealMatrix(1, 1);
+                resultMatrix[0, 0] = m1.Determinant;
+                return resultMatrix;
+            });
+            _operations.Add(4, (m1, m2) => _operations[3](m2, m1));
+            _operations.Add(5, (m1, m2) => m1.Inversed);
+            _operations.Add(6, (m1, m2) => m2.Inversed);
         }
 
         private void SetMatrixSize(ref Matrix<BindingContainer<double>> matrix, int width, int height)
         {
-            matrix = new Matrix<BindingContainer<double>>(width, height, new BindingContainer<double>[width * height].Select(e => new BindingContainer<double>()));
+            matrix = new Matrix<BindingContainer<double>>(width, height, new BindingContainer<double>[width * height]
+                                                                         .Select(e => new BindingContainer<double>()));
         }
     }
 }
